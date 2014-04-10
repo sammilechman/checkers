@@ -23,7 +23,9 @@ class Piece
   end
 
   def attempt_jump(start_pos, end_pos)
-
+    @board[end_pos] = @board[start_pos]
+    @board[start_pos] = nil
+    @board[[(start_pos[0] + end_pos[0]) / 2, (start_pos[1] + end_pos[1]) / 2]] = nil
   end
 
   def slide_move_list
