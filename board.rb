@@ -4,8 +4,8 @@ class Board
   attr_accessor :rows
 
   def initialize(new = true)
-    @rows = Array.new(10) { Array.new(10) } if new
-    set_pieces
+    @rows = Array.new(10) { Array.new(10) }
+    set_pieces if new
   end
 
   def set_pieces
@@ -35,18 +35,23 @@ class Board
     @rows[x][y] = piece
   end
 
-  def display
+  def display(cursor)
     system("clear")
     counter = 0
     puts "   0 1 2 3 4 5 6 7 8 9"
     @rows.each_with_index do |row, idx|
       print "#{idx} "
-      row.each do |tile|
-        background = counter.odd? ? :ly : :lb
-        print "  ".on_light_red if tile.nil? && background == :ly
-        print "  ".on_light_black if tile.nil? && background == :lb
-        print tile.get_sprite.on_light_red if !tile.nil? && background == :ly
-        print tile.get_sprite.on_light_white if !tile.nil? && background == :lb
+      row.each_with_index do |tile, idx2|
+        background = counter.odd? ? :lr : :lb
+        sprite = tile.nil? ? "  " : tile.get_sprite
+
+        print sprite.on_light_red if background == :lr && cursor != [idx, idx2]
+        print sprite.on_light_black if background == :lb && cursor != [idx, idx2]
+
+        print sprite.on_magenta if background == :lr && cursor == [idx, idx2]
+        print sprite.on_magenta if background == :lb && cursor == [idx, idx2]
+
+
         counter += 1
       end
       puts
@@ -55,6 +60,8 @@ class Board
     nil
   end
 
-
+  def inspect
+    " "
+  end
 
 end

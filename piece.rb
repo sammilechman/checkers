@@ -1,4 +1,5 @@
 require 'colorize'
+require 'debugger'
 
 class Piece
   attr_reader :color, :position
@@ -9,6 +10,16 @@ class Piece
     @position = position
     @color = color
     @king = king
+  end
+
+  def move(*end_pos)
+    list_of_moves = end_pos.shift
+    slide_count = 0
+    end_pos.each { |pos| list_of_moves << pos }
+    list_of_moves.each do |move|
+      raise "Invalid move - can't move after a slide move." if slide_count > 0
+      slide_count += 1 if make_one_move(move) == :slide
+    end
   end
 
   def make_one_move(end_pos)
@@ -23,10 +34,13 @@ class Piece
     slide(@position, end_pos) if type_of_move == :slide
     jump(@position, end_pos) if type_of_move == :jump
 
+    return type_of_move
+
   end
 
   def king_checker
-    @king = true if @position[0] == (@color == :white) ? 0 : 9
+    x, y = @position
+    @king = true if x == ((@color == :white) ? 0 : 9)
   end
 
   def slide(start_pos, end_pos)
@@ -91,6 +105,10 @@ class Piece
     return "\u265f ".black if @color == :black && !king
     return "\u265B ".white if @color == :white && king
     return "\u265B ".black if @color == :black && king
+  end
+
+  def inspect
+    return "#{@color} Piece, position: #{@position}, king? #{@king}"
   end
 
 
