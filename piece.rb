@@ -1,3 +1,5 @@
+require 'colorize'
+
 class Piece
   attr_reader :color, :position
   attr_accessor :position, :king
@@ -10,22 +12,36 @@ class Piece
   end
 
   def make_one_move(end_pos)
-    type_of_move = slide_move_list.include?(end_pos) ? :slide : :jump
+    if slide_move_list.include?(end_pos)
+      type_of_move = :slide
+    elsif jump_move_list.include?(end_pos)
+      type_of_move = :jump
+    else
+      raise "You attempted: #{@position} to #{end_pos}. That's not a valid move."
+    end
 
-    attempt_slide(@position, end_pos) if type_of_move == :slide
-    attempt_jump(@position, end_pos) if type_of_move == :jump
+    slide(@position, end_pos) if type_of_move == :slide
+    jump(@position, end_pos) if type_of_move == :jump
 
   end
 
-  def attempt_slide(start_pos, end_pos)
+  def king_checker
+    @king = true if @position[0] == (@color == :white) ? 0 : 9
+  end
+
+  def slide(start_pos, end_pos)
     @board[end_pos] = @board[start_pos]
     @board[start_pos] = nil
+    @position = end_pos
+    king_checker
   end
 
-  def attempt_jump(start_pos, end_pos)
+  def jump(start_pos, end_pos)
     @board[end_pos] = @board[start_pos]
     @board[start_pos] = nil
     @board[[(start_pos[0] + end_pos[0]) / 2, (start_pos[1] + end_pos[1]) / 2]] = nil
+    @position = end_pos
+    king_checker
   end
 
   def slide_move_list
@@ -71,8 +87,10 @@ class Piece
   end
 
   def get_sprite
-    return "W " if color == :white
-    return "B " if color == :black
+    return "\u265f ".white if @color == :white && !king
+    return "\u265f ".black if @color == :black && !king
+    return "\u265B ".white if @color == :white && king
+    return "\u265B ".black if @color == :black && king
   end
 
 

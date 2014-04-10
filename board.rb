@@ -37,12 +37,20 @@ class Board
 
   def display
     system("clear")
-    @rows.each do |row|
+    counter = 0
+    puts "   0 1 2 3 4 5 6 7 8 9"
+    @rows.each_with_index do |row, idx|
+      print "#{idx} "
       row.each do |tile|
-        print "  " if tile.nil?
-        print tile.get_sprite if !tile.nil?
+        background = counter.odd? ? :ly : :lb
+        print "  ".on_light_red if tile.nil? && background == :ly
+        print "  ".on_light_black if tile.nil? && background == :lb
+        print tile.get_sprite.on_light_red if !tile.nil? && background == :ly
+        print tile.get_sprite.on_light_white if !tile.nil? && background == :lb
+        counter += 1
       end
       puts
+      counter += 1
     end
     nil
   end
