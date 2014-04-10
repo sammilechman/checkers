@@ -35,5 +35,10 @@ class Piece
     @board[pos].color == enemy_color
   end
 
+  def get_sprite
+    return "W " if color == :white
+    return "B " if color == :black
+  end
+
 
 end
