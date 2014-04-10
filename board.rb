@@ -36,6 +36,7 @@ class Board
   end
 
   def display
+    system("clear")
     @rows.each do |row|
       row.each do |tile|
         print "  " if tile.nil?

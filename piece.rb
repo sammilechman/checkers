@@ -9,11 +9,43 @@ class Piece
     @king = king
   end
 
-  def move_list
+  def make_one_move(end_pos)
+    type_of_move = slide_move_list.include?(end_pos) ? :slide : :jump
+
+    attempt_slide(@position, end_pos) if type_of_move == :slide
+    attempt_jump(@position, end_pos) if type_of_move == :jump
+
+  end
+
+  def attempt_slide(start_pos, end_pos)
+    @board[end_pos] = @board[start_pos]
+    @board[start_pos] = nil
+  end
+
+  def attempt_jump(start_pos, end_pos)
+
+  end
+
+  def slide_move_list
     list = []
+
     self.deltas.each do |delta|
       new_pos = [(delta[0] + @position[0]), (delta[1] + @position[1])]
-      list << new_pos if on_board?(new_pos)
+      list << new_pos if (on_board?(new_pos) && occupied_checker(new_pos) == :none)
+    end
+    list
+  end
+
+  def jump_move_list
+    list = []
+
+    self.deltas.each do |delta|
+      new_pos = [(delta[0] + @position[0]), (delta[1] + @position[1])]
+      enemy_color = (@color == :white) ? :black : :white
+      if occupied_checker(new_pos) == enemy_color
+        new_pos = [(delta[0] * 2 + @position[0]), (delta[1] * 2 + @position[1])]
+        list << new_pos if (on_board?(new_pos) && occupied_checker(new_pos) == :none)
+      end
     end
     list
   end
