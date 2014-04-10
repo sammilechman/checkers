@@ -29,10 +29,11 @@ class Piece
     pos[0] >= 0 && pos[0] <= 9 && pos[1] >= 0 && pos[1] <= 9
   end
 
-  def enemy_occupied?(pos)
+  def occupied_checker(pos)
     enemy_color = (@color == :white) ? :black : :white
-    return false if @board[pos].nil?
-    @board[pos].color == enemy_color
+    return :none if @board[pos].nil?
+    return enemy_color.to_sym if @board[pos].color == enemy_color
+    return @color.to_sym if @board[pos].color == @color
   end
 
   def get_sprite
