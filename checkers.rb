@@ -4,7 +4,7 @@ require 'yaml'
 
 class Checkers
 
-  attr_accessor :other_player, :current_player
+  attr_accessor :other_player, :current_player, :board
 
   def initialize
     welcome_sequence
@@ -81,14 +81,13 @@ class Checkers
   end
 
   def load_save(load_game)
-    puts "Please enter the saved game you'd like to load:"
-      load_game = gets.chomp.downcase
       game_file = File.read("saved_games/#{load_game}.yml")
       game = YAML::load(game_file)
       @board = game.board
       @current_player = game.current_player
       @other_player = game.other_player
       @cursor = [9, 0]
+      gameplay
   end
 
   def get_move(player)
@@ -100,14 +99,13 @@ class Checkers
           x, y = @cursor
 
           @board.display(@cursor)
-          #puts "#{@current_player.name}'s turn."
           puts "\n#{error_message}\n\n"
 
           puts "To add to your move queue, press 'r'."
           puts "To execute your move queue, press spacebar."
           puts "To save, press 'p'"
           puts "To quit, press '0'\n\n"
-          puts "\n#{@current_player.name}'s turn."
+          puts "\n#{@current_player.name}'s turn (#{current_player.color})"
           puts "Your move queue: #{move_queue}."
 
           key = get_cursor_input
