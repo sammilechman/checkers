@@ -4,7 +4,7 @@ require 'yaml'
 
 class Checkers
 
-  attr_accessor :other_player, :current_player, :board
+  attr_accessor :other_player, :current_player, :board, :winner
 
   def initialize
     welcome_sequence
@@ -20,9 +20,11 @@ class Checkers
       player1 = gets.chomp.downcase.capitalize
       print "\nPlease enter the second player's name: "
       player2 = gets.chomp.downcase.capitalize
+      player1 = "Nameless Checkers Assassin" if player1 == ""
+      player2 = "Nameless Checkers Assassin" if player2 == ""
       @current_player, @other_player = Player.new(player1, :white), Player.new(player2, :black)
       @board, @cursor = Board.new, [ 9,0 ]
-      gameplay
+      get_move(@current_player)
     elsif input == 'l'
       print "Enter the saved game you would like to play: "
       load_game = gets.chomp.downcase
@@ -44,23 +46,14 @@ class Checkers
     exit if key == '0'
   end
 
-  def gameplay
-
-    until over?
-      get_move(@current_player)
-    end
-
-    puts "#{@winner} wins the game!"
-
-    sleep(4)
-
-  end
-
   def over?
     black_count, white_count = 0, 0
-    @board.pieces.each do |x|
-      white_count += 1 if x.color == :white
-      black_count += 1 if x.color == :black
+    @board.rows.each do |row|
+      row.each do |tile|
+        next if tile.nil?
+        white_count += 1 if tile.color == :white
+        black_count += 1 if tile.color == :black
+      end
     end
     if white_count == 0
       @winner = "Black"
@@ -69,6 +62,7 @@ class Checkers
       @winner = "White"
       return true
     end
+    false
   end
 
   def save_game
@@ -87,14 +81,14 @@ class Checkers
       @current_player = game.current_player
       @other_player = game.other_player
       @cursor = [9, 0]
-      gameplay
+      get_move(@current_player)
   end
 
   def get_move(player)
       error_message = ""
       begin
         move_queue = []
-        while true
+        until false
 
           x, y = @cursor
 
@@ -142,6 +136,10 @@ class Checkers
             move_queue = []
             @current_player, @other_player = @other_player, @current_player
 
+            if over?
+              winners_sequence
+              exit
+            end
           end
         end
 
@@ -150,6 +148,12 @@ class Checkers
         retry
       end
 
+    end
+
+    def winners_sequence
+      puts "#{other_player.name} (#{@winner}) wins the game!"
+      sleep(4)
+      exit
     end
 
     def array_moves_bad?(arr)
@@ -176,7 +180,7 @@ end
 
 class Player
   attr_reader :name, :color
-  def initialize(name = "Nameless Checker's Assassin", color)
+  def initialize(name, color)
     @name = name
     @color = color
   end

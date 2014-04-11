@@ -1,0 +1,212 @@
+--- !ruby/object:Checkers
+other_player: !ruby/object:Player
+  name: Sam
+  color: :white
+current_player: !ruby/object:Player
+  name: Nameless Checkers Assassin
+  color: :black
+cursor: &70280379898440
+- 2
+- 9
+board: &70280378707960 !ruby/object:Board
+  rows:
+  - - 
+    - 
+    - 
+    - 
+    - 
+    - 
+    - 
+    - 
+    - 
+    - 
+  - - 
+    - 
+    - 
+    - 
+    - !ruby/object:Piece
+      board: *70280378707960
+      position:
+      - 1
+      - 4
+      color: :white
+      king: true
+    - 
+    - 
+    - 
+    - 
+    - 
+  - - 
+    - !ruby/object:Piece
+      board: *70280378707960
+      position:
+      - 2
+      - 1
+      color: :white
+      king: false
+    - 
+    - !ruby/object:Piece
+      board: *70280378707960
+      position:
+      - 2
+      - 3
+      color: :white
+      king: true
+    - 
+    - !ruby/object:Piece
+      board: *70280378707960
+      position:
+      - 2
+      - 5
+      color: :black
+      king: false
+    - 
+    - 
+    - 
+    - !ruby/object:Piece
+      board: *70280378707960
+      position: *70280379898440
+      color: :white
+      king: true
+  - - 
+    - 
+    - 
+    - 
+    - 
+    - 
+    - 
+    - 
+    - 
+    - 
+  - - 
+    - 
+    - 
+    - 
+    - 
+    - 
+    - 
+    - 
+    - 
+    - 
+  - - 
+    - 
+    - 
+    - 
+    - 
+    - 
+    - !ruby/object:Piece
+      board: *70280378707960
+      position:
+      - 5
+      - 6
+      color: :white
+      king: false
+    - 
+    - 
+    - 
+  - - 
+    - 
+    - 
+    - 
+    - 
+    - 
+    - 
+    - 
+    - 
+    - 
+  - - !ruby/object:Piece
+      board: *70280378707960
+      position:
+      - 7
+      - 0
+      color: :white
+      king: false
+    - 
+    - 
+    - 
+    - 
+    - 
+    - 
+    - 
+    - 
+    - 
+  - - 
+    - !ruby/object:Piece
+      board: *70280378707960
+      position:
+      - 8
+      - 1
+      color: :white
+      king: false
+    - 
+    - !ruby/object:Piece
+      board: *70280378707960
+      position:
+      - 8
+      - 3
+      color: :white
+      king: false
+    - 
+    - !ruby/object:Piece
+      board: *70280378707960
+      position:
+      - 8
+      - 5
+      color: :white
+      king: false
+    - 
+    - !ruby/object:Piece
+      board: *70280378707960
+      position:
+      - 8
+      - 7
+      color: :white
+      king: false
+    - 
+    - !ruby/object:Piece
+      board: *70280378707960
+      position:
+      - 8
+      - 9
+      color: :white
+      king: false
+  - - !ruby/object:Piece
+      board: *70280378707960
+      position:
+      - 9
+      - 0
+      color: :white
+      king: false
+    - 
+    - !ruby/object:Piece
+      board: *70280378707960
+      position:
+      - 9
+      - 2
+      color: :white
+      king: false
+    - 
+    - !ruby/object:Piece
+      board: *70280378707960
+      position:
+      - 9
+      - 4
+      color: :white
+      king: false
+    - 
+    - !ruby/object:Piece
+      board: *70280378707960
+      position:
+      - 9
+      - 6
+      color: :white
+      king: false
+    - 
+    - !ruby/object:Piece
+      board: *70280378707960
+      position:
+      - 9
+      - 8
+      color: :white
+      king: false
+    - 
