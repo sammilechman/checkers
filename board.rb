@@ -48,8 +48,8 @@ class Board
         print sprite.on_light_red if background == :lr && cursor != [idx, idx2]
         print sprite.on_light_black if background == :lb && cursor != [idx, idx2]
 
-        print sprite.on_magenta if background == :lr && cursor == [idx, idx2]
-        print sprite.on_magenta if background == :lb && cursor == [idx, idx2]
+        print sprite.blink.on_magenta if background == :lr && cursor == [idx, idx2]
+        print sprite.blink.on_magenta if background == :lb && cursor == [idx, idx2]
 
 
         counter += 1
