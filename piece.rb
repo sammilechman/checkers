@@ -12,13 +12,9 @@ class Piece
     @king = king
   end
 
-  def move(*end_pos)
-    list_of_moves = end_pos.shift
-    slide_count = 0
-    end_pos.each { |pos| list_of_moves << pos }
-    list_of_moves.each do |move|
-      raise "Invalid move - can't move after a slide move." if slide_count > 0
-      slide_count += 1 if make_one_move(move) == :slide
+  def move(end_pos)
+    end_pos.each do |move|
+      make_one_move(move)
     end
   end
 
@@ -33,8 +29,6 @@ class Piece
 
     slide(@position, end_pos) if type_of_move == :slide
     jump(@position, end_pos) if type_of_move == :jump
-
-    return type_of_move
 
   end
 
@@ -101,8 +95,8 @@ class Piece
   end
 
   def get_sprite
-    return "\u265f ".white if @color == :white && !king
-    return "\u265f ".black if @color == :black && !king
+    return "\u25CF ".white if @color == :white && !king
+    return "\u25CF ".black if @color == :black && !king
     return "\u265B ".white if @color == :white && king
     return "\u265B ".black if @color == :black && king
   end
