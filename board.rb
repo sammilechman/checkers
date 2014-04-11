@@ -60,6 +60,10 @@ class Board
     nil
   end
 
+  def pieces
+    @rows.flatten.compact
+  end
+
   def inspect
     " "
   end

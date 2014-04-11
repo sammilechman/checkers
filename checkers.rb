@@ -13,13 +13,23 @@ class Checkers
   def welcome_sequence
     system("clear")
     puts "Welcome to Ultimate Checkers 5000, Deluxe Version\n\n"
-    print "Please enter the first player's name: "
-    player1 = gets.chomp.downcase.capitalize
-    print "\nPlease enter the second player's name: "
-    player2 = gets.chomp.downcase.capitalize
-    @current_player, @other_player = Player.new(player1, :white), Player.new(player2, :black)
-    @board, @cursor = Board.new, [ 9,0 ]
-    gameplay
+    print "Would you like to load a saved game or start a new one? Type 'L' or 'N': "
+    input = gets.chomp.downcase
+    if input == 'n'
+      print "\nPlease enter the first player's name: "
+      player1 = gets.chomp.downcase.capitalize
+      print "\nPlease enter the second player's name: "
+      player2 = gets.chomp.downcase.capitalize
+      @current_player, @other_player = Player.new(player1, :white), Player.new(player2, :black)
+      @board, @cursor = Board.new, [ 9,0 ]
+      gameplay
+    elsif input == 'l'
+      print "Enter the saved game you would like to play: "
+      load_game = gets.chomp.downcase
+      load_save(load_game)
+    else
+      welcome_sequence
+    end
   end
 
   def get_cursor_input
@@ -30,7 +40,7 @@ class Checkers
     return :right if key == 'd'
     return :select if key == 'r'
     return :space if key == ' '
-    #save_game if key == 'p'
+    save_game if key == 'p'
     exit if key == '0'
   end
 
@@ -40,10 +50,45 @@ class Checkers
       get_move(@current_player)
     end
 
+    puts "#{@winner} wins the game!"
+
+    sleep(4)
+
   end
 
   def over?
-    false
+    black_count, white_count = 0, 0
+    @board.pieces.each do |x|
+      white_count += 1 if x.color == :white
+      black_count += 1 if x.color == :black
+    end
+    if white_count == 0
+      @winner = "Black"
+      return true
+    elsif black_count == 0
+      @winner = "White"
+      return true
+    end
+  end
+
+  def save_game
+    puts "Please enter a name for your saved game:"
+      filename = gets.chomp.downcase
+      File.open("saved_games/#{filename}.yml", 'w') do |f|
+        f.puts self.to_yaml
+      end
+      exit
+  end
+
+  def load_save(load_game)
+    puts "Please enter the saved game you'd like to load:"
+      load_game = gets.chomp.downcase
+      game_file = File.read("saved_games/#{load_game}.yml")
+      game = YAML::load(game_file)
+      @board = game.board
+      @current_player = game.current_player
+      @other_player = game.other_player
+      @cursor = [9, 0]
   end
 
   def get_move(player)
